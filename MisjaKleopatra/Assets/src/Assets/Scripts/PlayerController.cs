@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public Transform wallCheck;
     public LayerMask groundLayer;
+    public LayerMask wallLayer;
     
     public float speed = 8f;
     [Range(0, 1)] public float acceleration = 0.1f;
@@ -56,12 +57,10 @@ public class PlayerController : MonoBehaviour
                 currentAccelaration = 0;
             }
             direction.x = horizontalInput * speed * currentAccelaration;
-        }
+        }        
 
-
-        direction.y -= gravity * Time.deltaTime;
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundLayer);
-        bool isFacingWall = Physics.CheckSphere(wallCheck.position, 1.3f, groundLayer);
+        bool isFacingWall = Physics.CheckSphere(wallCheck.position, 1.3f, wallLayer);
         isSliding = isFacingWall && direction.y < 0 && !wallJump; 
 
         if (isGrounded)
@@ -73,6 +72,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // apply gravity
+            direction.y -= gravity * Time.deltaTime;
+
             if (isSliding)
             {
                 if (Input.GetButtonDown("Jump"))
