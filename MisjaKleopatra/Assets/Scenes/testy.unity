@@ -82033,6 +82033,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2041114153}
     m_Modifications:
+    - target: {fileID: 6966733414451106070, guid: b1a6cd3797fbb2a429eda9afefc1dfe3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7091844875108429734, guid: b1a6cd3797fbb2a429eda9afefc1dfe3,
         type: 3}
       propertyPath: m_Name
