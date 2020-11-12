@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public AudioSource AS;//Steps Sound
     public CharacterController controller;
     public Transform groundCheck;
     public Transform wallCheck;
@@ -47,12 +48,14 @@ public class PlayerController : MonoBehaviour
             float horizontalInput = Input.GetAxis("Horizontal");
             if (horizontalInput != 0)
             {
+                if(!AS.isPlaying)AS.Play();//Steps Sound
                 currentAccelaration += acceleration * Time.deltaTime;
                 if (currentAccelaration > 1)
                     currentAccelaration = 1;
             }
             else
             {
+                AS.Stop();//Steps Sound
                 currentAccelaration = 0;
             }
             direction.x = horizontalInput * speed * currentAccelaration;
