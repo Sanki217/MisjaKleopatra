@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource AS;//Steps Sound
     public AudioSource JumpSound;//Jump Sound
     public CharacterController controller;
+    public Animator animator;
     public Transform groundCheck;
     public Transform wallCheck;
     public LayerMask groundLayer;
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private bool isSliding;
     private bool wallJump = false;
     private bool wallJumpDirection;
+    private bool isMoving = false;
+    private bool facingRight = true;
+    private bool turning = false;
+    private bool jumping = false;
 
     void Start()
     {
@@ -43,17 +48,30 @@ public class PlayerController : MonoBehaviour
         if (!isGrounded) AS.gameObject.SetActive(false);//Object sound off
         else  AS.gameObject.SetActive(true); //Object sound on
 
-        if (wallJump)
+        float horizontalInput = Input.GetAxis("Horizontal");
+        facingRight = transform.localScale.z > 0;
+
+        if (turning)
+        {
+            direction.x = 0;
+        }
+        else if (facingRight != (horizontalInput > 0) && horizontalInput != 0)
+        {
+            turning = true;
+            animator.SetTrigger("Turn");
+        }
+
+        else if (wallJump)
         {
             direction.y = wallJumpYForce;
             direction.x = wallJumpDirection ? wallJumpXForce : -wallJumpXForce;
         }
         else
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
+
             if (horizontalInput != 0)
             {
-                if(!AS.isPlaying)AS.Play();//Steps Sound
+                if (!AS.isPlaying) AS.Play();//Steps Sound
                 currentAccelaration += acceleration * Time.deltaTime;
                 if (currentAccelaration > 1)
                     currentAccelaration = 1;
@@ -72,10 +90,9 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && !jumping)
             {
-                direction.y = jumpForce;
-                JumpSound.Play();//Jump sound
+                animator.SetTrigger("Jump");
             }
                 
             else if (!ableToDoubleJump && enableDoubleJump)
@@ -104,18 +121,37 @@ public class PlayerController : MonoBehaviour
                 direction.y = secondJumpForce;
                 ableToDoubleJump = false;
                 JumpSound.Play();//Jump sound
+                animator.SetTrigger("DoubleJump");
             }
+        }
+
+        if (!turning && isMoving != (direction.x != 0))
+        {
+            isMoving = direction.x != 0;
+            animator.SetBool("Moving", isMoving);
         }
 
 
 
+
         controller.Move(direction * Time.deltaTime);
-        Debug.Log(direction.x);
+
+
+
     }
 
-    void endWallJump()
+    public void finishTurn()
     {
-        wallJump = false;
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, -transform.localScale.z);
+        turning = false;   
+    }
+
+    public void Jump()
+    {
+        direction.y = jumpForce;
+        controller.Move(direction * Time.deltaTime);
+        JumpSound.Play();//Jump sound
+        jumping = false;
     }
 
 }
