@@ -57,8 +57,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (facingRight != (horizontalInput > 0) && horizontalInput != 0)
         {
-            turning = true;
-            animator.SetTrigger("Turn");
+            if (isGrounded)
+            {
+                turning = true;
+                animator.SetTrigger("Turn");
+            }
         }
 
         else if (wallJump)
