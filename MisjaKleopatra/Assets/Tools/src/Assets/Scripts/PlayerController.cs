@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public AudioSource AS;//Steps Sound
+    public AudioSource JumpSound;//Jump Sound
     public CharacterController controller;
     public Transform groundCheck;
     public Transform wallCheck;
@@ -38,6 +39,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!isGrounded) AS.gameObject.SetActive(false);//Object sound off
+        else  AS.gameObject.SetActive(true); //Object sound on
+
         if (wallJump)
         {
             direction.y = wallJumpYForce;
@@ -70,7 +74,11 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             if (Input.GetButtonDown("Jump"))
+            {
                 direction.y = jumpForce;
+                JumpSound.Play();//Jump sound
+            }
+                
             else if (!ableToDoubleJump && enableDoubleJump)
                 ableToDoubleJump = true;
         }
@@ -83,6 +91,7 @@ public class PlayerController : MonoBehaviour
                     wallJump = true;
                     wallJumpDirection = direction.x < 0;
                     Invoke("endWallJump", wallJumpTime);
+                    JumpSound.Play();//Jump sound
                 }
                 else
                     direction.y += gravity * Time.deltaTime * wallSlideSlowDown;
@@ -92,6 +101,7 @@ public class PlayerController : MonoBehaviour
             {
                 direction.y = secondJumpForce;
                 ableToDoubleJump = false;
+                JumpSound.Play();//Jump sound
             }
         }
 
