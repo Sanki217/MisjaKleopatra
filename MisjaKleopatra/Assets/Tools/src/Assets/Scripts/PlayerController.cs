@@ -135,13 +135,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Moving", isMoving);
         }
 
-
-
-
         controller.Move(direction * Time.deltaTime);
-
-
-
     }
 
     public void finishTurn()
@@ -156,6 +150,11 @@ public class PlayerController : MonoBehaviour
         controller.Move(direction * Time.deltaTime);
         JumpSound.Play();//Jump sound
         jumping = false;
+    }
+
+    public void endWallJump()
+    {
+        wallJump = false;
     }
 
 }

@@ -16517,7 +16517,7 @@ MonoBehaviour:
     m_Bits: 256
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   speed: 11
   acceleration: 0.904
   gravity: 25
@@ -16527,7 +16527,7 @@ MonoBehaviour:
   wallSlideSlowDown: 0.5
   wallJumpXForce: 10
   wallJumpYForce: 10
-  wallJumpTime: 2
+  wallJumpTime: 0.2
 --- !u!43 &454471965
 Mesh:
   m_ObjectHideFlags: 0
