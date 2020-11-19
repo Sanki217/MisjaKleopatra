@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
         else  AS.gameObject.SetActive(true); //Object sound on
 
         float horizontalInput = Input.GetAxis("Horizontal");
+        animator.SetBool("KeyPressed", (horizontalInput != 0.0f));
         facingRight = transform.localScale.z > 0;
 
         if (turning)
