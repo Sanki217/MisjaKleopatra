@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
             direction.x = horizontalInput * speed * currentAccelaration;
         }        
 
-        isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundLayer);
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.3f, groundLayer);
         animator.SetBool("Grounded", isGrounded);
         bool isFacingWall = Physics.CheckSphere(wallCheck.position, 1.3f, wallLayer);
         isSliding = isFacingWall && direction.y < 0 && !wallJump; 
