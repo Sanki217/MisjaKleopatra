@@ -36,11 +36,13 @@ public class PlayerController : MonoBehaviour
     private bool facingRight = true;
     private bool turning = false;
     private bool jumping = false;
+    private float stayAtZ;
 
     void Start()
     {
         if (!enableDoubleJump)
             ableToDoubleJump = false;
+        stayAtZ = transform.position.z;
     }
 
     void Update()
@@ -138,6 +140,11 @@ public class PlayerController : MonoBehaviour
         }
 
         controller.Move(direction * Time.deltaTime);
+
+        // safety check in case something goes horribly wrong
+        if (transform.position.z != stayAtZ)
+            transform.position = new Vector3(transform.position.x, transform.position.y, stayAtZ);
+
     }
 
     public void finishTurn()
