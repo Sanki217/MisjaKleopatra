@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
                     wallJumpDirection = direction.x < 0;
                     Invoke("endWallJump", wallJumpTime);
                     JumpSound.Play();//Jump sound
+                    animator.SetTrigger("WallJump");
                 }
                 else
                     direction.y += gravity * Time.deltaTime * wallSlideSlowDown;
